@@ -2,12 +2,20 @@
 
 import os
 from os.path import expanduser
+import platform
+import sys
 import time
 from threading import Thread
 import urllib
 
+
 image_url = "http://lorempixel.com/1920/1080/";
 dest_path = expanduser("~") + "/image.jpg"
+
+platform = platform.system()
+if not(platform == "Linux"):
+    print "Your platform (" + platform + ") is not supported."
+    sys.exit(-1)
 
 def download(image_url, dest_path):
     print "starting download of: " + image_url
