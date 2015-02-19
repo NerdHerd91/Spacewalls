@@ -14,12 +14,12 @@ class Wallpapers(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	path = db.Column(db.String())
 	url = db.Column(db.String())
-	last_used = db.Column(db.Integer())
+	last_modified = db.Column(db.Timestamp())
 
-	def __init__(self, path, url, last_used):
+	def __init__(self, path, url, last_modified):
 		self.path = path
 		self.url = url
-		self.last_used = last_used
+		self.last_modified = last_modified
 
 	def __repr__(self):
 		return '<id {}>'.format(self.id)
