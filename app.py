@@ -1,5 +1,5 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy, types
 
 from flask.ext.heroku import Heroku
 
@@ -14,7 +14,7 @@ class Wallpapers(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	path = db.Column(db.String())
 	url = db.Column(db.String())
-	last_modified = db.Column(db.Timestamp())
+	last_modified = db.Column(db.types.TIMESTAMP())
 
 	def __init__(self, path, url, last_modified):
 		self.path = path
