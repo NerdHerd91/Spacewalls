@@ -1,12 +1,13 @@
 #! /usr/bin/python
 
 import os
+from os.path import expanduser
 import time
 from threading import Thread
 import urllib
 
 image_url = "http://lorempixel.com/1920/1080/";
-dest_path = "/home/justin/Pictures/wallpaper/image.jpg"
+dest_path = expanduser("~") + "/image.jpg"
 
 def download(image_url, dest_path):
     print "starting download of: " + image_url
@@ -31,6 +32,6 @@ class UpdateBackgroundThread(Thread):
             time.sleep(3)
 
 
-UpdateBackgroundThread().start()
+#UpdateBackgroundThread().start()
 
-#changeBackground()
+changeBackground()
