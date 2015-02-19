@@ -1,9 +1,11 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy, types
+from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import TIMESTAMP
 
 from flask.ext.heroku import Heroku
 
 app = Flask(__name__)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/spacewalls'
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
@@ -14,7 +16,7 @@ class Wallpapers(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	path = db.Column(db.String())
 	url = db.Column(db.String())
-	last_modified = db.Column(db.types.TIMESTAMP())
+	last_modified = db.Column(TIMESTAMP)
 
 	def __init__(self, path, url, last_modified):
 		self.path = path
