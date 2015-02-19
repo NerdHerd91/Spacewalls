@@ -1,13 +1,28 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-import os
 
 app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/spacewalls'
 db = SQLAlchemy(app)
 
-from model import *
+# database model
+class Wallpapers(db.Model):
+	__tablename__ = 'wallpapers'
 
+	id = db.Column(db.Integer, primary_key=True)
+	path = db.Column(db.String())
+	url = db.Column(db.String())
+	last_used = db.Column(db.Integer())
+
+	def __init__(self, path, url, last_used):
+		self.path = path
+		self.url = url
+		self.last_used = last_used
+
+	def __repr__(self):
+		return '<id {}>'.format(self.id)
+
+# routes
 @app.route('/')
 def hello():
     return "Hello World!"
@@ -18,4 +33,5 @@ def get_next_image():
 
 
 if __name__ == '__main__':
-    app.run()
+	app.debug = True
+	app.run()
