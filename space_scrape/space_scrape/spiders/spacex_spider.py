@@ -11,6 +11,8 @@ class SpaceXSpider(scrapy.Spider):
             "http://www.spacex.com/media"
     ]
 
+    base_domain = "http://www.spacex.com"
+
     def parse(self, response):
         for sel in response.xpath('//div[re:test(@class, "views-row")]/div/div/span'):
             thumbnail = sel.xpath('a/img/@src').extract()[0]
@@ -19,6 +21,6 @@ class SpaceXSpider(scrapy.Spider):
 
             item = SpaceScrapeItem()
             item['title'] = thumbnail_filename
-            item['link'] = self.start_urls[0] + sel.xpath('a/@href').extract()[0]
+            item['link'] = self.base_domain + sel.xpath('a/@href').extract()[0]
             item['desc'] = thumbnail_filename
             yield item
