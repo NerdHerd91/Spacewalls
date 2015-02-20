@@ -1,4 +1,4 @@
-import run, json, datetime
+import app, json, datetime
 
 def load_pics(session):
 	pic_files = ['./app/static/images/spacex.json', './app/static/images/hubble.json']
@@ -9,19 +9,20 @@ def load_pics(session):
 			for i in decoded_json:
 				path = 'static/images/' + i['title']
 				url = i['link'] 
+				approved = False
 				last_modified = datetime.datetime.now()
 
-				entry = run.Wallpapers(path=path, url=url, last_modified=last_modified)
+				entry = app.Wallpapers(path=path, url=url, approved=approved, last_modified=last_modified)
 				session.add(entry)
 			session.commit()
 
 
 def main(session):
-	run.Base.metadata.create_all(bind=run.engine)
+	app.Base.metadata.create_all(bind=app.engine)
 	load_pics(session)
 
 if __name__ == "__main__":
-	main(run.session)
+	main(app.session)
 			
 			
 
