@@ -56,3 +56,4 @@ target/
 #Browserify
 app/static/js/bundle.js
 app/static/js/bundle.min.js
+node_modules/
