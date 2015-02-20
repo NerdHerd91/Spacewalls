@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, Sequence, TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
@@ -38,7 +38,7 @@ class Wallpapers(Base):
 # routes
 @app.route('/')
 def hello():
-    return "Hello World!"
+    return render_template('base.html')
 
 @app.route('/next_image')
 def get_next_image():
