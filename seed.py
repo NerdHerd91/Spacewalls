@@ -1,11 +1,11 @@
 import app, json, datetime
 
 def load_pics(session):
-	with open('./static/seed_data/items.json') as f:
+	with open('./static/images/spacex.json') as f:
 		decoded_json = json.load(f)
 
 		for i in decoded_json:
-			path = 'static/images/' + i['title'] # does this need an extension?
+			path = 'static/images/' + i['title']
 			url = i['link'] 
 			last_modified = datetime.datetime.now()
 
