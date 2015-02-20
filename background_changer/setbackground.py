@@ -49,15 +49,26 @@ def setBackground(image_path):
         ctypes.windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, image_path, 0)
     print "background changed"
 
-def updateBackground():
-    (fd, filename) = tempfile.mkstemp()
-    try:
-        download(image_url, filename)
-        setBackground(filename)  
+def getImageFilename():
+    if platform == PLATFORM_OSX:
+        (fd, filename) = tempfile.mkstemp()
+        return filename;
+    else:
+        return expanduser("~") + "/spacewalls_image.jpg"
+
+
+def deleteTempImageIfNeeded(filename):
+    if platform == PLATFORM_OSX:
         time.sleep(2) # setting the background fails if we don't wait before deleting
-    finally:
         os.remove(filename)
-        print "done"
+
+def updateBackground():
+    image_file = getImageFilename();
+    try:
+        download(image_url, image_file)
+        setBackground(image_file)          
+    finally:
+        deleteTempImageIfNeeded(image_file)
 
 class UpdateBackgroundThread(Thread):
     def __init__(self):
