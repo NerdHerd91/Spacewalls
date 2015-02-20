@@ -12,7 +12,8 @@ from threading import Thread
 import urllib
 
 
-image_url = "http://lorempixel.com/1920/1080/";
+# image_url = "http://lorempixel.com/1920/1080/";
+image_url = sys.argv[1]
 
 PLATFORM_LINUX = "Linux"
 PLATFORM_OSX = "Darwin"

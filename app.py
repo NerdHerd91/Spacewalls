@@ -68,8 +68,9 @@ def decline_image(id):
 # @app.route('/api/set_wallpaper/<path:id>')
 # def set_wallpaper(id):
 # 	result = session.query(Wallpapers).filter_by(id=id).first()
-# 	#download this image? return url?
-	
+# 	image_url = result.url
+# 	subprocess.call(["python", "background_changer/setbackground.py", "{}".format(image_url)])
+
 if __name__ == '__main__':
 	app.debug = True
 	app.run()
