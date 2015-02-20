@@ -50,6 +50,13 @@ input[type="checkbox"] {
 				0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
 
+#logo {
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 80px;
+    margin-top: 50px;
+}
+
 #wallapp:before {
 	content: '';
 	border-left: 1px solid #f5d6d6;
