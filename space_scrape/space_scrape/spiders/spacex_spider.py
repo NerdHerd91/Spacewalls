@@ -1,26 +1,30 @@
-import scrapy
 import urlparse
+from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+from scrapy.selector import HtmlXPathSelector
 
 from os.path import splitext, basename
 from space_scrape.items import SpaceScrapeItem
 
-class SpaceXSpider(scrapy.Spider):
+class SpaceXSpider(CrawlSpider):
     name = "spacex"
     allows_domains = ["spacex"]
     start_urls = [
             "http://www.spacex.com/media"
     ]
 
-    base_domain = "http://www.spacex.com"
+    rules = (Rule (SgmlLinkExtractor(allow=("/media-gallery/detail/.", ),
+        restrict_xpaths=('//div[re:test(@class, "views-row")]/div/div/span',)),
+        callback="parse_items", follow=True),)
 
-    def parse(self, response):
-        for sel in response.xpath('//div[re:test(@class, "views-row")]/div/div/span'):
-            thumbnail = sel.xpath('a/img/@src').extract()[0]
-            thumbnail_path = urlparse.urlsplit(thumbnail).path
-            thumbnail_filename, thumbnail_fileext = splitext(basename(thumbnail_path))
+    def parse_items(self, response):
+        hxs = HtmlXPathSelector(response)
+        link = hxs.select('//div[re:test(@id, "asset-image")]/img/@src').extract()[0]
+        link_path = urlparse.urlsplit(link).path
+        link_filename, link_fileext = splitext(basename(link_path))
 
-            item = SpaceScrapeItem()
-            item['title'] = thumbnail_filename
-            item['link'] = self.base_domain + sel.xpath('a/@href').extract()[0]
-            item['desc'] = thumbnail_filename
-            yield item
+        item = SpaceScrapeItem()
+        item['title'] = basename(link_path)
+        item['link'] = link
+        item['desc'] = link_filename
+        yield item
