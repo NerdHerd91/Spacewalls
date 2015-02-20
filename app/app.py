@@ -37,13 +37,20 @@ class Wallpapers(Base):
 
 # routes
 @run.route('/')
-def hello():
+def index():
     return render_template('index.html')
 
-@run.route('/next_image')
+@run.route('/api/images')
 def get_next_image():
 	return "next image"
 
+# @run.route('/api/images/approve/<id>')
+# def approve_image(id):
+# # set flag for image as approved
+
+# @run.route('/api/images/decline/<id>')
+# def decline_image(id):
+# set flag for image as declined
 
 if __name__ == '__main__':
 	run.debug = True
