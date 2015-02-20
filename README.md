@@ -36,5 +36,13 @@ exit()
 python seed.py
 ```
 
-5)
+5) Generate bundle.js
+```
+npm install
+npm start
+```
 
+6) Start web application
+```
+python run.py
+```
