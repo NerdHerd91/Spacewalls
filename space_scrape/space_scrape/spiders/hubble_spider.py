@@ -1,33 +1,33 @@
-import scrapy
 import urlparse
+from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+from scrapy.selector import HtmlXPathSelector
 
 from os.path import splitext, basename
 from space_scrape.items import SpaceScrapeItem
 
-class SpaceXSpider(scrapy.Spider):
+class HubbleSpider(CrawlSpider):
     name = "hubble"
     allows_domains = ["hubble"]
     start_urls = [
-            "http://www.spacex.com/media"
+            "http://hubblesite.org/gallery/wallpaper/"
     ]
 
-    base_domain = "http://www.spacex.com"
+    rules = (Rule (SgmlLinkExtractor(allow=("/gallery/wallpaper/.", ),
+        restrict_xpaths=('//div[re:test(@id, "ListBlock")]/a',)),
+        callback="", follow=True), 
+        Rule (SgmlLinkExtractor(allow=("/gallery/wallpaper/.", ),
+            restrict_xpaths=('//li[re:test(@id, "wallpaper-1920x1200")]',)),
+            callback="parse_items", follow=True))
 
-    # This is the intermediate path to the SpaceX images, it would be preferred
-    # to simply re-scrape but have yet to figure out how to scrape a second
-    # interval of new start_urls.
-    intermediate_path = "/sites/spacex/files/styles/media_gallery_large/public/"
+    def parse_items(self, response):
+        hxs = HtmlXPathSelector(response)
+        link = hxs.select('//div[re:test(@class, "subpage-body")]/img/@src').extract()[0]
+        link_path = urlparse.urlsplit(link).path
+        link_filename, link_fileext = splitext(basename(link_path))
 
-
-    def parse(self, response):
-        for sel in response.xpath('//div[re:test(@class, "views-row")]/div/div/span'):
-            thumbnail = sel.xpath('a/img/@src').extract()[0]
-            thumbnail_path = urlparse.urlsplit(thumbnail).path
-            thumbnail_filename, thumbnail_fileext = splitext(basename(thumbnail_path))
-
-            item = SpaceScrapeItem()
-            item['title'] = thumbnail_filename
-            #item['link'] = self.base_domain + sel.xpath('a/@href').extract()[0]
-            item['link'] = self.base_domain + self.intermediate_path + thumbnail_filename
-            item['desc'] = thumbnail_filename
-            yield item
+        item = SpaceScrapeItem()
+        item['title'] = basename(link_path)
+        item['link'] = link
+        item['desc'] = link_filename
+        yield item
