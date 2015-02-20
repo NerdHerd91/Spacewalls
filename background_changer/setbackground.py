@@ -6,13 +6,13 @@ from os.path import expanduser
 import platform
 import subprocess
 import sys
+import tempfile
 import time
 from threading import Thread
 import urllib
 
 
 image_url = "http://lorempixel.com/1920/1080/";
-dest_path = expanduser("~") + "/image.jpg"
 
 PLATFORM_LINUX = "Linux"
 PLATFORM_OSX = "Darwin"
@@ -50,9 +50,14 @@ def setBackground(image_path):
     print "background changed"
 
 def updateBackground():
-    download(image_url, dest_path)
-    setBackground(dest_path)
-
+    (fd, filename) = tempfile.mkstemp()
+    try:
+        download(image_url, filename)
+        setBackground(filename)  
+        time.sleep(2) # setting the background fails if we don't wait before deleting
+    finally:
+        os.remove(filename)
+        print "done"
 
 class UpdateBackgroundThread(Thread):
     def __init__(self):
@@ -61,7 +66,7 @@ class UpdateBackgroundThread(Thread):
     def run(self):
         while not self.stopped:
             updateBackground()
-            time.sleep(3)
+            time.sleep(5)
 
 
 #UpdateBackgroundThread().start()
