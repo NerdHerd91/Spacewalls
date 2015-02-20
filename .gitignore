@@ -54,5 +54,5 @@ docs/_build/
 target/
 
 #Browserify
-/app/static/js/bundle.js
-/app/static/js/bundle.min.js
+app/static/js/bundle.js
+app/static/js/bundle.min.js
