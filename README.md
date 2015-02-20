@@ -25,7 +25,7 @@ scrapy crawl hubble -o ../app/static/images/hubble.json
 ```
 cd ../app
 python
-from run import db
+from app import db
 db.create_all()
 exit()
 ```
@@ -47,5 +47,5 @@ npm start
 6) Start the web application.
 
 ```
-python app/run.py
+python app/app.py
 ```
