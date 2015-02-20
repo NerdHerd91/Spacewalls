@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from flask.ext.heroku import Heroku
 
 run = Flask(__name__)
-# run.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/spacewalls'
+run.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/spacewalls'
 heroku = Heroku(run)
 db = SQLAlchemy(run)
 
@@ -41,8 +41,11 @@ def index():
     return render_template('index.html')
 
 @run.route('/api/images')
-def get_next_image():
-	return "next image"
+def get_images():
+	images = {}
+	for row in session.query(Wallpapers).all():
+		images[row['id']] = row['url']
+	return images
 
 # @run.route('/api/images/approve/<id>')
 # def approve_image(id):
