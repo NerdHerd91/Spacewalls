@@ -25,12 +25,16 @@ class Wallpapers(Base):
 	id = db.Column(db.Integer, primary_key=True)
 	path = db.Column(db.String())
 	url = db.Column(db.String())
-	last_modified = db.Column(TIMESTAMP)
+        approved = db.Column(db.Boolean(), default=False)
+        declined = db.Column(db.Boolean(), default=False)
+        last_modified = db.Column(TIMESTAMP)
 	# TODO add boolean flags for approved/disapproved
 
-	def __init__(self, path, url, last_modified):
+	def __init__(self, path, url, approved, declined, last_modified):
 		self.path = path
 		self.url = url
+                self.approved = approved
+                self.declined = declined
 		self.last_modified = last_modified
 
 	def __repr__(self):
