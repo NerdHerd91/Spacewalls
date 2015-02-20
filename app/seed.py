@@ -1,7 +1,7 @@
 import run, json, datetime
 
 def load_pics(session):
-	pic_files = ['./static/images/spacex.json', './static/images/hubble.json']
+	pic_files = ['./app/static/images/spacex.json', './app/static/images/hubble.json']
 	for pic_file in pic_files:
 		with open(pic_file) as f:
 			decoded_json = json.load(f)
