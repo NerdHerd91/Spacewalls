@@ -16,16 +16,16 @@ pip install -r requirements.txt
 
 ```
 cd space_scrape
-scrapy crawl spacex -o ../static/images/spacex.json
-scrapy crawl hubble -o ../static/images/hubble.json
+scrapy crawl spacex -o ../app/static/images/spacex.json
+scrapy crawl hubble -o ../app/static/images/hubble.json
 ```
 
 3) Create a Postgres database 'spacewalls' then create the model for the database in the python interprer as follows.
 
 ```
-cd ..
+cd ../app
 python
-from app import db
+from run import db
 db.create_all()
 exit()
 ```
@@ -37,12 +37,15 @@ python seed.py
 ```
 
 5) Generate bundle.js
+
 ```
+cd ..
 npm install
 npm start
 ```
 
-6) Start web application
+6) Start the web application.
+
 ```
-python run.py
+python app/run.py
 ```
