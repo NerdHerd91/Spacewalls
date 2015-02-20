@@ -21,13 +21,13 @@ var _photos = {};
 
 
 function approve(id) {
-  request.get('/api/images/approve/%d' % (id), function(data) {
+  request.get('/api/images/approve/' +  id, function(data) {
     delete _photos[id];
   });
 }
 
-function decline(id) {
-  request.get('/api/images/decline/%d' % (id), function(data) {
+function decline(id) {approve
+  request.get('/api/images/decline/' + id, function(data) {
     delete _photos[id];
   });
 }
@@ -44,7 +44,6 @@ var WallStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);
-    console.log('emitting');
   },
 
   /**
@@ -69,11 +68,11 @@ AppDispatcher.register(function(action) {
 
   switch(action.actionType) {
     case WallConstants.APPROVE_IMAGE:
-      approve(action.id);
+      approve(Number(action.id));
       WallStore.emitChange();
       break;
     case WallConstants.DECLINE_IMAGE:
-      decline(action.id);
+      decline(Number(action.id));
       WallStore.emitChange();
       break;
     default:
@@ -84,7 +83,6 @@ AppDispatcher.register(function(action) {
 
 request.get('/api/images', function(data) {
   _photos = JSON.parse(data.text);
-  console.log(_photos);
   WallStore.emitChange();
 })
 

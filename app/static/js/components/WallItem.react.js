@@ -15,10 +15,6 @@ var cx = require('react/lib/cx');
 
 var WallItem = React.createClass({
 
-  propTypes: {
-   photo: ReactPropTypes.object.isRequired
-  },
-
   getInitialState: function() {
     return {};
   },
@@ -52,11 +48,13 @@ var WallItem = React.createClass({
   },
 
   _onApproved: function() {
-    WallActions.approveImage(this.props.photo.id);
+    console.log(this.props);
+    console.log(this.props.id);
+    WallActions.approveImage(this.props.id);
   },
 
   _onDeclined: function() {
-    WallActions.declineImage(this.props.photo.id);
+    WallActions.declineImage(this.props.id);
   }
 
 });
