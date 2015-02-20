@@ -52,3 +52,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#Browserify
+/static/js/bundle.js
+/static/js/bundle.min.js
