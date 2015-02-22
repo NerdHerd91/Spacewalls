@@ -41,6 +41,7 @@ python seed.py
 ```
 cd ..
 npm install
+npm run build
 npm start
 ```
 
