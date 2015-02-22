@@ -33,7 +33,7 @@ exit()
 4) Run the following command to seed the database.
 
 ```
-python seed.py
+python app/seed.py
 ```
 
 5) Generate bundle.js
